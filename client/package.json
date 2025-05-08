@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start:dev": "nodemon --watch src --exec \"npm run dev\""
-
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",

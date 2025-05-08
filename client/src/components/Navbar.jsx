@@ -1,5 +1,5 @@
 import { Menu, School } from "lucide-react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,25 +11,26 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import DarkMode from "@/DarkMode";
+import DarkMode from "../DarkMode";
+
+import {
+  useLogoutUserMutation
+} from "../features/api/authApi";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  // SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import { Separator } from "./ui/separator";
-import { Link, useNavigate } from "react-router-dom";
-import { useLogoutUserMutation } from "@/features/api/authApi";
-import { toast } from "sonner";
-import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user } = true;
-  useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const [logoutUser, { data, isSuccess, isLoading, error }] = useLogoutUserMutation();
   const navigate = useNavigate();
 
@@ -132,7 +133,7 @@ const MobileNavbar = ({ user, logoutHandler, isLoadingLogout }) => {
 
   const handleNavigation = (path) => {
     navigate(path);
-  }
+  };
 
   return (
     <Sheet>
@@ -149,7 +150,7 @@ const MobileNavbar = ({ user, logoutHandler, isLoadingLogout }) => {
         <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetClose asChild>
             <Link to="/">
-              <SheetTitle>E-Learning</SheetTitle>
+              <SheetTitle>Skill-Matrix</SheetTitle>
             </Link>
           </SheetClose>
           <DarkMode />
@@ -159,38 +160,58 @@ const MobileNavbar = ({ user, logoutHandler, isLoadingLogout }) => {
           {user ? (
             <>
               <SheetClose asChild>
-                <Link to="/my-learning" className="text-base font-medium" onClick={() => handleNavigation('/my-learning')}>My Learning</Link>
+                <Link to="/my-learning" className="text-base font-medium">
+                  My Learning
+                </Link>
               </SheetClose>
               <SheetClose asChild>
-                <Link to="/profile" className="text-base font-medium" onClick={() => handleNavigation('/profile')}>Edit Profile</Link>
+                <Link to="/profile" className="text-base font-medium">
+                  Edit Profile
+                </Link>
               </SheetClose>
               <SheetClose asChild>
-                <div
-                  className="text-base font-medium cursor-pointer hover:underline"
+                <Button
+                  variant="outline"
+                  className="w-full"
                   onClick={logoutHandler}
                   disabled={isLoadingLogout}
                 >
                   {isLoadingLogout ? "Logging out..." : "Log out"}
-                </div>
+                </Button>
               </SheetClose>
             </>
           ) : (
             <>
               <SheetClose asChild>
-                <Button variant="outline" className="w-full" onClick={() => handleNavigation('/login')}>Login</Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleNavigation("/login")}
+                >
+                  Login
+                </Button>
               </SheetClose>
               <SheetClose asChild>
-                <Button className="w-full" onClick={() => handleNavigation('/login')}>Signup</Button>
+                <Button
+                  className="w-full"
+                  onClick={() => handleNavigation("/login")}
+                >
+                  Signup
+                </Button>
               </SheetClose>
             </>
           )}
-
         </nav>
         {user?.role === "instructor" && (
           <>
             <Separator className="my-4" />
             <SheetClose asChild>
-              <Button className="w-full" onClick={() => handleNavigation("/admin/dashboard")}>Dashboard</Button>
+              <Button
+                className="w-full"
+                onClick={() => handleNavigation("/admin/dashboard")}
+              >
+                Dashboard
+              </Button>
             </SheetClose>
           </>
         )}
@@ -198,3 +219,4 @@ const MobileNavbar = ({ user, logoutHandler, isLoadingLogout }) => {
     </Sheet>
   );
 };
+

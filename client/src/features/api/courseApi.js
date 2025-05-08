@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_API = " mongodb+srv://gurisingh770011:mynameisgurditsingh@cluster0.vwcup.mongodb.net/skill_matrix/api/v1/course";
-// const COURSE_API = "http://localhost:5157/api/v2/course";
+const COURSE_API = "http://localhost:8000/api/v2/course";
+// const COURSE_API = " mongodb+srv://gurisingh770011:mynameisgurditsingh@cluster0.vwcup.mongodb.net/skill_matrix/api/v1/course";
 
 
 export const courseApi = createApi({
