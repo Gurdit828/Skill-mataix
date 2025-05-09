@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useCreateCourseMutation } from "../../features/api/courseApi";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+import { useCreateCourseMutation } from "@/features/api/courseApi";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 
 const AddCourse = () => {
