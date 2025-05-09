@@ -3,11 +3,10 @@ import Course from "./Course";
 import { useGetPublishedCourseQuery, useGetSearchCourseQuery } from "../../features/api/courseApi";
 
 const Courses = () => {
-  const { data, isLoading } = useGetPublishedCourseQuery();
+  const { data, isLoading, isError } = useGetPublishedCourseQuery();
+  const { isError: isSearchError } = useGetSearchCourseQuery({ searchQuery: "", categories: [], sortByPrice: "" });
 
-  const { isError } = useGetSearchCourseQuery({ searchQuery: "", categories: [], sortByPrice: "" });
-
-  if (isError) return <h1>Some error occurred while fetching courses.</h1>;
+  if (isError || isSearchError) return <h1>Some error occurred while fetching courses.</h1>;
 
   return (
     <div className="bg-gray-50 dark:bg-[#141414]">

@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const COURSE_API = "http://localhost:8000/api/v2/course";
-// const COURSE_API = " mongodb+srv://gurisingh770011:mynameisgurditsingh@cluster0.vwcup.mongodb.net/skill_matrix/api/v1/course";
-
 
 export const courseApi = createApi({
   reducerPath: "courseApi",
@@ -13,29 +11,24 @@ export const courseApi = createApi({
   }),
   endpoints: (builder) => ({
     createCourse: builder.mutation({
-      query: ({ courseTitle, category }) => ({
+      query: (formData) => ({
         url: "",
         method: "POST",
-        body: { courseTitle, category },
+        body: formData,
+        // Do not set Content-Type header; let browser set it for FormData
       }),
       invalidatesTags: ["Refetch_Creator_Course"],
     }),
-    getSearchCourse:builder.query({
+    getSearchCourse: builder.query({
       query: ({searchQuery, categories, sortByPrice}) => {
-        // Build qiery string
-        let queryString = `/search?query=${encodeURIComponent(searchQuery)}`
-
-        // append cateogry 
+        let queryString = `/search?query=${encodeURIComponent(searchQuery)}`;
         if(categories && categories.length > 0) {
           const categoriesString = categories.map(encodeURIComponent).join(",");
           queryString += `&categories=${categoriesString}`; 
         }
-
-        // Append sortByPrice is available
         if(sortByPrice){
           queryString += `&sortByPrice=${encodeURIComponent(sortByPrice)}`; 
         }
-
         return {
           url:queryString,
           method:"GET", 
@@ -117,20 +110,7 @@ export const courseApi = createApi({
     }),
   }),
 });
-// export const {
-//   useCreateCourseMutation,
-//   useGetSearchCourseQuery,
-//   useGetPublishedCourseQuery,
-//   useGetCreatorCourseQuery,
-//   useEditCourseMutation,
-//   useGetCourseByIdQuery,
-//   useCreateLectureMutation,
-//   useGetCourseLectureQuery,
-//   useEditLectureMutation,
-//   useRemoveLectureMutation,
-//   useGetLectureByIdQuery,
-//   usePublishCourseMutation,
-// } = courseApi;
+
 export default courseApi;
 export const {
   useCreateCourseMutation,
@@ -146,4 +126,4 @@ export const {
   useGetLectureByIdQuery,
   usePublishCourseMutation,
 } = courseApi;
-export const { endpoints } = courseApi;
+

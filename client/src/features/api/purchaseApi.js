@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_PURCHASE_API = " mongodb+srv://gurisingh770011:mynameisgurditsingh@cluster0.vwcup.mongodb.net/skill_matrix/api/v1/purchase";
+// const COURSE_PURCHASE_API = " mongodb+srv://gurisingh770011:mynameisgurditsingh@cluster0.vwcup.mongodb.net/skill_matrix/api/v1/purchase";
+const COURSE_PURCHASE_API = "http://localhost:8000/api/v2/purchase";
 
 export const purchaseApi = createApi({
   reducerPath: "purchaseApi",

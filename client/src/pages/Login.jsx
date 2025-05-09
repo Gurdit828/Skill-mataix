@@ -63,30 +63,37 @@ const Login = () => {
     await action(inputData);
   };
 
-  useEffect(() => {
-    if(registerIsSuccess && registerData){
-      toast.success(registerData.message || "Signup successful.")
-    }
-    if(registerError){
-      const message = registerError && registerError.data && registerError.data.message ? registerError.data.message : "Signup Failed";
-      toast.error(message);
-    }
-    if(loginIsSuccess && loginData){
-      toast.success(loginData.message || "Login successful.");
-      navigate("/ ");
-    }
-    if(loginError){ 
-      const message = loginError && loginError.data && loginError.data.message ? loginError.data.message : "Login Failed";
-      toast.error(message);
-    }
-  }, [
-    loginIsLoading,
-    registerIsLoading,
-    loginData,
-    registerData,
-    loginError,
-    registerError,
-  ]);
+    useEffect(() => {
+      if(registerIsSuccess && registerData){
+        toast.success(registerData.message || "Signup successful.")
+      }
+      if(registerError){
+        const message = registerError && registerError.data && registerError.data.message ? registerError.data.message : "Signup Failed";
+        toast.error(message);
+      }
+      if(loginIsSuccess && loginData){
+        toast.success(loginData.message || "Login successful.");
+        const role = loginData.user?.role;
+        if(role === "student"){
+          navigate("/my-learning");
+        } else if(role === "instructor" || role === "admin"){
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/");
+        }
+      }
+      if(loginError){ 
+        const message = loginError && loginError.data && loginError.data.message ? loginError.data.message : "Login Failed";
+        toast.error(message);
+      }
+    }, [
+      loginIsLoading,
+      registerIsLoading,
+      loginData,
+      registerData,
+      loginError,
+      registerError,
+    ]);
 
   return (
     <div className="flex items-center w-full justify-center mt-20">
@@ -112,7 +119,7 @@ const Login = () => {
                   value={signupInput.name}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   placeholder="Eg. patel"
-                  required="true"
+                  required={true}
                 />
               </div>
               <div className="space-y-1">
@@ -123,7 +130,7 @@ const Login = () => {
                   value={signupInput.email}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   placeholder="Eg. patel@gmail.com"
-                  required="true"
+                  required={true}
                 />
               </div>
               <div className="space-y-1">
@@ -134,7 +141,7 @@ const Login = () => {
                   value={signupInput.password}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   placeholder="Eg. xyz"
-                  required="true"
+                  required={true}
                 />
               </div>
             </CardContent>
@@ -172,7 +179,7 @@ const Login = () => {
                   value={loginInput.email}
                   onChange={(e) => changeInputHandler(e, "login")}
                   placeholder="Eg. patel@gmail.com"
-                  required="true"
+                  required={true}
                 />
               </div>
               <div className="space-y-1">
@@ -183,7 +190,7 @@ const Login = () => {
                   value={loginInput.password}
                   onChange={(e) => changeInputHandler(e, "login")}
                   placeholder="Eg. xyz"
-                  required="true"
+                  required={true}
                 />
               </div>
             </CardContent>

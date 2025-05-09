@@ -3,16 +3,17 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./database/db.js";
-import userRoute from "./routes/user.route.js";
-import courseRoute from "./routes/course.route.js";
-import mediaRoute from "./routes/media.route.js";
-import purchaseRoute from "./routes/purchaseCourse.route.js";
-import courseProgressRoute from "./routes/courseProgress.route.js";
+import userRoute from "./routes/userroute.js";
+import courseRoute from "./routes/courseroute.js";
+import mediaRoute from "./routes/mediaroute.js";
+import purchaseRoute from "./routes/purchaseCourseroute.js";
+
+import courseProgressRoute from "./routes/courseProgressroute.js";
 import mongoose from "mongoose";
+// import adminRoute from "./routes/admin.route.js";
 
 // Load environment variables
 dotenv.config();
-
 
 // Call database connection here
 connectDB();
@@ -22,11 +23,6 @@ const app = express();
 
 // Define the PORT variable before using it
 const PORT =  8000;
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.log(err));
 
 // Default middleware
 app.use(express.json());
@@ -43,6 +39,8 @@ app.use("/api/v2/user", userRoute);
 app.use("/api/v2/course", courseRoute);
 app.use("/api/v2/purchase", purchaseRoute);
 app.use("/api/v2/progress", courseProgressRoute);
+
+//app.use("/api/v2/admin", adminRoute);
 
 // Start the server
 app.listen(PORT, () => {

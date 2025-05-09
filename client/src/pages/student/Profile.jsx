@@ -71,6 +71,10 @@ const Profile = () => {
   console.log(user);
   
 
+  if (!user) {
+    return <h1>User data not available</h1>;
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 my-10">
       <h1 className="font-bold text-2xl text-center md:text-left">PROFILE</h1>

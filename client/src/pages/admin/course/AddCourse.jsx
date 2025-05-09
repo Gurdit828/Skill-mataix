@@ -1,6 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useCreateCourseMutation } from "../../features/api/courseApi";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,16 +13,13 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useCreateCourseMutation } from "@/features/api/courseApi";
+} from "../../components/ui/select";
 import { Loader2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 const AddCourse = () => {
   const [courseTitle, setCourseTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [thumbnail, setThumbnail] = useState(null);
 
   const [createCourse, { data, isLoading, error, isSuccess }] =
     useCreateCourseMutation();
@@ -29,17 +30,35 @@ const AddCourse = () => {
     setCategory(value);
   };
 
-  const createCourseHandler = async () => {
-    await createCourse({ courseTitle, category });
+  const onThumbnailChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setThumbnail(e.target.files[0]);
+    }
   };
 
-  // for displaying toast
-  useEffect(()=>{
-    if(isSuccess){
-        toast.success(data?.message || "Course created.");
-        navigate("/admin/course");
+  const createCourseHandler = async () => {
+    if (!courseTitle || !category) {
+      toast.error("Please provide course title and category.");
+      return;
     }
-  },[isSuccess, error])
+    const formData = new FormData();
+    formData.append("courseTitle", courseTitle);
+    formData.append("category", category);
+    if (thumbnail) {
+      formData.append("courseThumbnail", thumbnail);
+    }
+    await createCourse(formData);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "Course created.");
+      navigate("/admin/course");
+    }
+    if (error) {
+      toast.error("Failed to create course.");
+    }
+  }, [isSuccess, error]);
 
   return (
     <div className="flex-1 mx-10">
@@ -90,6 +109,10 @@ const AddCourse = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
+        </div>
+        <div>
+          <Label>Thumbnail</Label>
+          <Input type="file" accept="image/*" onChange={onThumbnailChange} />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => navigate("/admin/course")}>

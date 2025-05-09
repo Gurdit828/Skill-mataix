@@ -11,7 +11,7 @@ const Course = ({course}) => {
     <Card className="overflow-hidden rounded-lg dark:bg-gray-800 bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
       <div className="relative">
         <img
-          src={course.courseThumbnail}
+          src="https://images.ctfassets.net/aq13lwl6616q/6F802DfBmpgmgUKfFgzeif/74ea9b5d6f987ddd7af36b1dd2094492/nextjs_zero_to_mastery.png?w=500&fm=webp"
           alt="course"
           className="w-full h-36 object-cover rounded-t-lg"
         />
